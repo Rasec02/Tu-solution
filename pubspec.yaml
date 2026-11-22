@@ -1,0 +1,41 @@
+name: tu_solution
+description: >-
+  Gestión de reparaciones del taller de dispositivos electrónicos "Tu Solution".
+  Aplicación Android offline-first con Drift (SQLite) y Riverpod.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Estado (MVVM: los ViewModel son Notifier/StateNotifier de Riverpod).
+  flutter_riverpod: ^2.6.1
+
+  # Persistencia local en SQLite.
+  drift: ^2.28.2
+  sqlite3_flutter_libs: ^0.5.42
+  sqlite3: ^2.9.0
+  path_provider: ^2.1.5
+  path: ^1.9.1
+
+  # Combinación de streams para las vistas compuestas.
+  rxdart: ^0.28.0
+
+  # Formato de fechas y moneda en español.
+  intl: ^0.20.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.9.0
+  drift_dev: ^2.28.2
+
+flutter:
+  uses-material-design: true

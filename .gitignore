@@ -1,0 +1,27 @@
+# Dart / Flutter
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Android
+android/.gradle/
+android/local.properties
+android/app/debug/
+android/app/profile/
+android/app/release/
+android/key.properties
+*.jks
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# NOTA: pubspec.lock y los archivos generados (*.g.dart) SÍ se versionan,
+# para que el proyecto se pueda abrir y ejecutar sin pasos extra.
