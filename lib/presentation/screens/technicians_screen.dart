@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme.dart';
 import '../../data/database/app_database.dart';
 import '../../domain/order_status.dart';
 import '../providers.dart';
@@ -45,7 +46,7 @@ class TechniciansScreen extends ConsumerWidget {
             : ListView.separated(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
                 itemCount: rows.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 10),
+                separatorBuilder: (_, _) => const SizedBox(height: 10),
                 itemBuilder: (_, i) {
                   final row = rows[i];
                   final technician = row.technician;
@@ -98,12 +99,12 @@ class TechniciansScreen extends ConsumerWidget {
                               _Metric(
                                 value: row.inRepair,
                                 label: 'en reparación',
-                                color: const Color(0xFF0B5FA5),
+                                color: context.workshop.enReparacion,
                               ),
                               _Metric(
                                 value: row.ready,
                                 label: 'listas',
-                                color: const Color(0xFF1B7A3D),
+                                color: context.workshop.lista,
                               ),
                             ],
                           ),

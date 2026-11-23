@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../domain/order_status.dart';
+import '../../domain/theme_preference.dart';
 import '../../domain/views.dart';
 import '../database/app_database.dart';
 import '../database/daos/catalog_dao.dart';
@@ -585,6 +586,23 @@ class WorkshopRepository {
     }
     return entries;
   }
+
+  // ============================= Ajustes ============================
+
+  static const _themeKey = 'theme_mode';
+
+  /// Modo de tema escogido en el teléfono del taller.
+  ///
+  /// Se guarda en la base como el resto de la información: la app funciona
+  /// sin conexión y la preferencia sobrevive al cierre.
+  Stream<ThemePreference> watchThemePreference() =>
+      _db.watchSetting(_themeKey).map(ThemePreference.parse);
+
+  Future<ThemePreference> themePreference() async =>
+      ThemePreference.parse(await _db.readSetting(_themeKey));
+
+  Future<void> setThemePreference(ThemePreference mode) =>
+      _db.writeSetting(_themeKey, mode.name);
 
   Future<RepairOrder> _requireOrder(int orderId) async {
     final order = await _orders.orderById(orderId);

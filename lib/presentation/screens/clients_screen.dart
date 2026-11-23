@@ -84,7 +84,7 @@ class _ClientsScreenState extends ConsumerState<ClientsScreen> {
           return ListView.separated(
             padding: const EdgeInsets.fromLTRB(0, 8, 0, 96),
             itemCount: filtered.length,
-            separatorBuilder: (_, __) => const Divider(height: 1),
+            separatorBuilder: (_, _) => const Divider(height: 1),
             itemBuilder: (_, i) {
               final client = filtered[i];
               return ListTile(

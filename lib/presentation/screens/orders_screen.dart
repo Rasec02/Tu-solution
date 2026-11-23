@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme.dart';
 import '../../core/formatters.dart';
 import '../../domain/order_status.dart';
 import '../../domain/views.dart';
@@ -45,7 +46,7 @@ class OrdersScreen extends ConsumerWidget {
             : ListView.separated(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
                 itemCount: list.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 10),
+                separatorBuilder: (_, _) => const SizedBox(height: 10),
                 itemBuilder: (_, i) => OrderCard(summary: list[i]),
               ),
       ),
@@ -207,7 +208,7 @@ class OrderCard extends StatelessWidget {
                     size: 16,
                     color: summary.isTaken
                         ? scheme.primary
-                        : const Color(0xFF8E6C00),
+                        : context.workshop.aviso,
                   ),
                   const SizedBox(width: 4),
                   Expanded(
@@ -218,7 +219,7 @@ class OrderCard extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: summary.isTaken
                                 ? scheme.primary
-                                : const Color(0xFF8E6C00),
+                                : context.workshop.aviso,
                             fontWeight: FontWeight.w600,
                           ),
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme.dart';
 import '../../core/formatters.dart';
 import '../../data/database/app_database.dart';
 import '../../domain/views.dart';
@@ -359,7 +360,7 @@ class _ResponsibleCard extends ConsumerWidget {
                       : Icons.person_off_outlined,
                   color: summary.isTaken
                       ? scheme.primary
-                      : const Color(0xFF8E6C00),
+                      : context.workshop.aviso,
                 ),
                 const SizedBox(width: 10),
                 Expanded(

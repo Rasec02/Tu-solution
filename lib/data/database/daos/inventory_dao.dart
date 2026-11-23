@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 
 import '../app_database.dart';
-import '../tables.dart';
 
 part 'inventory_dao.g.dart';
 
@@ -55,7 +54,13 @@ class InventoryDao extends DatabaseAccessor<AppDatabase>
   Stream<List<StockMovement>> watchMovements(int partId) =>
       (select(stockMovements)
             ..where((m) => m.partId.equals(partId))
-            ..orderBy([(m) => OrderingTerm.desc(m.createdAt)])
+            // Dos movimientos del mismo repuesto pueden caer en el mismo
+            // instante (alta y consumo seguidos): el id desempata para que la
+            // bitácora siempre muestre el más reciente primero.
+            ..orderBy([
+              (m) => OrderingTerm.desc(m.createdAt),
+              (m) => OrderingTerm.desc(m.id),
+            ])
             ..limit(50))
           .watch();
 }

@@ -2,7 +2,6 @@ import 'package:drift/drift.dart';
 
 import '../../../domain/order_status.dart';
 import '../app_database.dart';
-import '../tables.dart';
 
 part 'orders_dao.g.dart';
 

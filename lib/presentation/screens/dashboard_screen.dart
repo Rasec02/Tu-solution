@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme.dart';
 import '../../domain/order_status.dart';
 import '../../domain/views.dart';
 import '../providers.dart';
 import '../widgets/common.dart';
+import '../widgets/theme_menu_button.dart';
 import 'inventory_screen.dart';
 import 'orders_screen.dart';
 import 'technicians_screen.dart';
@@ -32,6 +34,7 @@ class DashboardScreen extends ConsumerWidget {
             ),
             icon: const Icon(Icons.engineering_outlined),
           ),
+          const ThemeMenuButton(),
         ],
       ),
       body: ListView(
@@ -72,11 +75,11 @@ class DashboardScreen extends ConsumerWidget {
             loading: () => const LinearProgressIndicator(),
             error: (e, _) => ErrorView(e),
             data: (parts) => parts.isEmpty
-                ? const Card(
+                ? Card(
                     child: ListTile(
                       leading: Icon(Icons.check_circle_outline,
-                          color: Color(0xFF1B7A3D)),
-                      title: Text('El almacén está al día.'),
+                          color: context.workshop.exito),
+                      title: const Text('El almacén está al día.'),
                     ),
                   )
                 : Card(
@@ -85,8 +88,8 @@ class DashboardScreen extends ConsumerWidget {
                         for (var i = 0; i < parts.length; i++) ...[
                           if (i > 0) const Divider(height: 1),
                           ListTile(
-                            leading: const Icon(Icons.warning_amber_rounded,
-                                color: Color(0xFF8E6C00)),
+                            leading: Icon(Icons.warning_amber_rounded,
+                                color: context.workshop.aviso),
                             title: Text(parts[i].name),
                             subtitle: Text(
                               'Quedan ${parts[i].stock} · mínimo '
@@ -150,14 +153,14 @@ class _StatsGrid extends ConsumerWidget {
           label: 'Sin técnico asignado',
           value: '${stats.untakenOpenOrders}',
           icon: Icons.person_off_outlined,
-          color: const Color(0xFF8E6C00),
+          color: context.workshop.aviso,
           onTap: () => _openOrders(context, ref, OrderStatus.openStates),
         ),
         StatCard(
           label: 'En reparación',
           value: '${stats.count(OrderStatus.enReparacion)}',
           icon: Icons.handyman_outlined,
-          color: const Color(0xFF0B5FA5),
+          color: context.workshop.enReparacion,
           onTap: () =>
               _openOrders(context, ref, const [OrderStatus.enReparacion]),
         ),
@@ -165,7 +168,7 @@ class _StatsGrid extends ConsumerWidget {
           label: 'Listas para entregar',
           value: '${stats.count(OrderStatus.lista)}',
           icon: Icons.task_alt,
-          color: const Color(0xFF1B7A3D),
+          color: context.workshop.lista,
           onTap: () => _openOrders(context, ref, const [OrderStatus.lista]),
         ),
       ],

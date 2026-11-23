@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme.dart';
 import '../../core/formatters.dart';
 import '../../data/database/app_database.dart';
 import '../providers.dart';
@@ -107,7 +108,7 @@ class _PartsList extends ConsumerWidget {
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
               itemCount: parts.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 10),
+              separatorBuilder: (_, _) => const SizedBox(height: 10),
               itemBuilder: (_, i) => _PartCard(part: parts[i]),
             ),
     );
@@ -160,7 +161,7 @@ class _PartCard extends ConsumerWidget {
                   '${part.stock}',
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: low ? const Color(0xFF8E6C00) : null,
+                        color: low ? context.workshop.aviso : null,
                       ),
                 ),
                 const SizedBox(width: 6),
@@ -234,7 +235,7 @@ Future<void> _showMovements(
       expand: false,
       initialChildSize: 0.6,
       builder: (_, controller) => Consumer(
-        builder: (_, innerRef, __) {
+        builder: (_, innerRef, _) {
           final movements = innerRef.watch(movementsProvider(part.id));
           return Column(
             children: [
@@ -258,7 +259,7 @@ Future<void> _showMovements(
                       : ListView.separated(
                           controller: controller,
                           itemCount: list.length,
-                          separatorBuilder: (_, __) =>
+                          separatorBuilder: (_, _) =>
                               const Divider(height: 1),
                           itemBuilder: (_, i) {
                             final movement = list[i];
@@ -269,8 +270,8 @@ Future<void> _showMovements(
                                     ? Icons.arrow_downward
                                     : Icons.arrow_upward,
                                 color: entry
-                                    ? const Color(0xFF1B7A3D)
-                                    : const Color(0xFFA32020),
+                                    ? sheetContext.workshop.exito
+                                    : sheetContext.workshop.cancelada,
                               ),
                               title: Text(movement.reason),
                               subtitle: Text(longDate(movement.createdAt)),
@@ -279,8 +280,8 @@ Future<void> _showMovements(
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: entry
-                                      ? const Color(0xFF1B7A3D)
-                                      : const Color(0xFFA32020),
+                                      ? sheetContext.workshop.exito
+                                      : sheetContext.workshop.cancelada,
                                 ),
                               ),
                             );

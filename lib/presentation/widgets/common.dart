@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/formatters.dart';
+import '../../core/theme.dart';
 import '../../domain/order_status.dart';
 
 /// Distintivo de color con el estado de una orden.
@@ -10,19 +11,22 @@ class StatusChip extends StatelessWidget {
   final OrderStatus status;
   final bool dense;
 
-  static Color colorOf(OrderStatus status, ColorScheme scheme) =>
-      switch (status) {
-        OrderStatus.recibida => const Color(0xFF8E6C00),
-        OrderStatus.enReparacion => const Color(0xFF0B5FA5),
-        OrderStatus.lista => const Color(0xFF1B7A3D),
-        OrderStatus.entregada => scheme.outline,
-        OrderStatus.cancelada => const Color(0xFFA32020),
-      };
+  /// El color del estado sale del tema, así que cambia con el modo claro u
+  /// oscuro sin que el widget sepa en cuál está.
+  static Color colorOf(OrderStatus status, BuildContext context) {
+    final colors = context.workshop;
+    return switch (status) {
+      OrderStatus.recibida => colors.recibida,
+      OrderStatus.enReparacion => colors.enReparacion,
+      OrderStatus.lista => colors.lista,
+      OrderStatus.entregada => Theme.of(context).colorScheme.outline,
+      OrderStatus.cancelada => colors.cancelada,
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final color = colorOf(status, scheme);
+    final color = colorOf(status, context);
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -205,7 +209,8 @@ class LowStockBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = stock == 0 ? const Color(0xFFA32020) : const Color(0xFF8E6C00);
+    final colors = context.workshop;
+    final color = stock == 0 ? colors.cancelada : colors.aviso;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
@@ -260,7 +265,7 @@ class SectionTitle extends StatelessWidget {
                 ?.copyWith(fontWeight: FontWeight.w700),
           ),
           const Spacer(),
-          if (trailing != null) trailing!,
+          ?trailing,
         ],
       ),
     );

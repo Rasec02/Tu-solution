@@ -113,3 +113,16 @@ class StockMovements extends Table {
   TextColumn get reason => text().withLength(min: 2, max: 120)();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
+
+/// Ajustes de la app guardados como pares clave/valor.
+///
+/// Es un par suelto, no merece tabla propia por cada opción: hoy solo guarda
+/// el modo de tema que el técnico escogió en el teléfono del taller.
+@DataClassName('AppSetting')
+class AppSettings extends Table {
+  TextColumn get key => text().withLength(min: 1, max: 60)();
+  TextColumn get value => text()();
+
+  @override
+  Set<Column> get primaryKey => {key};
+}

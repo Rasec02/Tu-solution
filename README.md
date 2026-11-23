@@ -21,8 +21,8 @@ cierre: todo vive en una base SQLite dentro del teléfono.
 
 | Herramienta | Versión con la que se desarrolló |
 |---|---|
-| Flutter SDK | 3.50.1 (canal stable) |
-| Dart | 3.13.5 |
+| Flutter SDK | 3.47.7 (canal stable) |
+| Dart | 3.13.5 (el que trae ese Flutter) |
 | Android SDK | API 21 o superior (`minSdk` de Flutter) |
 | Emulador o teléfono Android | Android 5.0+ con depuración USB activada |
 
@@ -135,6 +135,14 @@ Pantalla de inicio con el estado del taller de un vistazo:
 
 Alta y edición de los técnicos del taller, con su carga de trabajo.
 
+### Tema claro, oscuro o del sistema
+
+Desde el icono de tema en el tablero se elige entre **claro**, **oscuro** o
+**según el sistema** (la opción por defecto). La preferencia se guarda en la
+base de datos, así que sigue puesta la próxima vez que se abra la app. Los
+colores de estado y de aviso viven en el tema (`WorkshopColors`), de modo que
+se aclaran en modo oscuro en vez de quedar ilegibles.
+
 ---
 
 ## 3. Reglas del taller que la app hace cumplir
@@ -183,13 +191,13 @@ lib/
 │   └── seed.dart                 Técnicos y almacén del primer arranque
 └── presentation/
     ├── providers.dart            Providers de Riverpod (inyección + streams)
-    ├── viewmodels/               VIEWMODEL: StateNotifier por caso de uso
+    ├── viewmodels/               VIEWMODEL: un Notifier por caso de uso
     ├── screens/                  VISTA
     └── widgets/                  Piezas de UI reutilizables
 ```
 
 - **Modelo:** las tablas de Drift y las reglas del `WorkshopRepository`.
-- **ViewModel:** los `StateNotifier` de `presentation/viewmodels`. Reciben las
+- **ViewModel:** los `Notifier` de `presentation/viewmodels`. Reciben las
   acciones de la vista, llaman al repositorio y exponen el resultado como estado
   (cargando / listo / error con el mensaje para el técnico).
 - **Vista:** widgets `ConsumerWidget` que observan providers y no contienen
@@ -211,6 +219,10 @@ intervención.
 | `spare_parts` | Inventario: nombre, código, precio, existencias y mínimo |
 | `order_parts` | Repuestos usados en una orden, con cantidad y precio del momento |
 | `stock_movements` | Bitácora de entradas y salidas del almacén |
+| `app_settings` | Ajustes clave/valor de la app (hoy, el modo de tema) |
+
+El esquema va por la **versión 2**: la v2 añadió `app_settings` mediante una
+migración que crea la tabla sin tocar los datos del taller ya registrados.
 
 ---
 

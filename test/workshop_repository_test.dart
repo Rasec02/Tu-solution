@@ -1,9 +1,9 @@
-import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tu_solution/data/database/app_database.dart';
 import 'package:tu_solution/data/repositories/workshop_repository.dart';
 import 'package:tu_solution/domain/order_status.dart';
+import 'package:tu_solution/domain/theme_preference.dart';
 
 /// Pruebas de las reglas del taller sobre una base SQLite en memoria.
 void main() {
@@ -285,5 +285,17 @@ void main() {
     stats = await repo.watchStats().first;
     expect(stats.untakenOpenOrders, 0);
     expect(stats.count(OrderStatus.recibida), 1);
+  });
+
+  test('el modo de tema arranca en sistema y se guarda al cambiarlo', () async {
+    expect(await repo.themePreference(), ThemePreference.sistema);
+
+    await repo.setThemePreference(ThemePreference.oscuro);
+    expect(await repo.themePreference(), ThemePreference.oscuro);
+
+    // Se sobrescribe, no se acumula una fila por cada cambio.
+    await repo.setThemePreference(ThemePreference.claro);
+    expect(await repo.themePreference(), ThemePreference.claro);
+    expect(await repo.watchThemePreference().first, ThemePreference.claro);
   });
 }

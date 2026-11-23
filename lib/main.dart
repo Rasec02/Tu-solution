@@ -8,6 +8,7 @@ import 'data/database/app_database.dart';
 import 'data/seed.dart';
 import 'presentation/providers.dart';
 import 'presentation/screens/home_shell.dart';
+import 'presentation/viewmodels/theme_viewmodel.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,15 +27,17 @@ Future<void> main() async {
   );
 }
 
-class TuSolutionApp extends StatelessWidget {
+class TuSolutionApp extends ConsumerWidget {
   const TuSolutionApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'Tu Solution',
       debugShowCheckedModeBanner: false,
-      theme: buildTheme(),
+      theme: buildLightTheme(),
+      darkTheme: buildDarkTheme(),
+      themeMode: ref.watch(themeModeProvider),
       locale: const Locale('es'),
       supportedLocales: const [Locale('es'), Locale('en')],
       localizationsDelegates: const [
